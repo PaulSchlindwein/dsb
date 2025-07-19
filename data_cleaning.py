@@ -40,3 +40,22 @@ df_cleaned = clean_dataframe(df)
 print("\nCleaned dataframe shape:", df_cleaned.shape)
 print("\nCleaned column names:")
 print(df_cleaned.columns.tolist())
+
+# Function to create campaign duration column
+def add_campaign_duration(df):
+    # Convert launched and deadline columns to datetime with error handling
+    df['launched'] = pd.to_datetime(df['launched'], errors='coerce')
+    df['deadline'] = pd.to_datetime(df['deadline'], errors='coerce')
+    
+    # Calculate campaign duration in days
+    df['campaign_duration'] = (df['deadline'] - df['launched']).dt.days
+    
+    return df
+
+# Apply the campaign duration function
+df_cleaned = add_campaign_duration(df_cleaned)
+
+# Display the updated dataframe info
+print("\nUpdated dataframe shape:", df_cleaned.shape)
+print("\nUpdated column names:")
+print(df_cleaned.columns.tolist())
